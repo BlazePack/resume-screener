@@ -113,27 +113,36 @@ function Screening() {
         <p className="mt-2 text-muted-foreground">Pick the sample job and training set, then score all 12 resumes.</p>
       </header>
 
-      <section className="rounded-xl border border-border bg-card p-5 mb-8">
-        <div className="grid md:grid-cols-[1fr_1fr_1fr_auto] gap-4 items-end">
-          <div>
-            <label className="text-sm font-medium mb-1.5 block">Job description</label>
+      <section className="rounded-xl border border-border bg-card p-5 md:p-6 mb-8">
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_auto] lg:gap-4 lg:items-start">
+          <ControlField
+            label="Job description"
+            hint={
+              result?.job_description
+                ? "Sample intern role loaded from the server."
+                : "Sample intern job: Python, web dev, Git, SQL, teamwork."
+            }
+          >
             <Select value={job} onValueChange={setJob}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="se-intern">Software Engineer Intern</SelectItem>
               </SelectContent>
             </Select>
-            <p className="mt-2 text-xs text-muted-foreground line-clamp-2">
-              {result?.job_description ??
-                "Sample intern job: Python, web dev, Git, SQL, teamwork."}
-            </p>
-          </div>
-          <div>
-            <label className="text-sm font-medium mb-1.5 block">Training data</label>
+          </ControlField>
+
+          <ControlField
+            label="Training data"
+            hint={
+              training === "heavy_data"
+                ? "Large diverse set: names and wording matter less."
+                : "Small skewed set: more bias from names and club wording."
+            }
+          >
             <Select value={training} onValueChange={(v) => setTraining(v as "heavy_data" | "low_data")}>
-              <SelectTrigger>
+              <SelectTrigger className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -141,24 +150,24 @@ function Screening() {
                 <SelectItem value="low_data">Small skewed dataset</SelectItem>
               </SelectContent>
             </Select>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Small set simulates biased historical hiring data.
-            </p>
-          </div>
-          <div>
-            <label className="text-sm font-medium mb-1.5 block">Resumes</label>
-            <div className="h-9 px-3 rounded-md border border-input bg-background flex items-center text-sm">
+          </ControlField>
+
+          <ControlField label="Resumes" hint="Twelve fake resumes with different skill levels.">
+            <div className="h-9 w-full px-3 rounded-md border border-input bg-background flex items-center text-sm">
               12 sample resumes
             </div>
-          </div>
-          <Button size="lg" onClick={runScore} disabled={loading}>
-            {loading ? (
-              <Loader2 className="w-4 h-4 mr-1 animate-spin" />
-            ) : (
-              <Play className="w-4 h-4 mr-1" />
-            )}
-            Score & Rank
-          </Button>
+          </ControlField>
+
+          <ControlField label="Run" hint="Scores all twelve resumes against the job.">
+            <Button className="w-full h-9" onClick={runScore} disabled={loading}>
+              {loading ? (
+                <Loader2 className="w-4 h-4 mr-1 animate-spin" />
+              ) : (
+                <Play className="w-4 h-4 mr-1" />
+              )}
+              Score & Rank
+            </Button>
+          </ControlField>
         </div>
         {loading && (
           <p className="mt-4 text-sm text-muted-foreground">
@@ -397,6 +406,24 @@ function Expanded({ c }: { c: Candidate }) {
         </span>
         <p className="mt-1">{c.explanation}</p>
       </div>
+    </div>
+  );
+}
+
+function ControlField({
+  label,
+  hint,
+  children,
+}: {
+  label: string;
+  hint: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex min-w-0 flex-col gap-1.5">
+      <span className="text-sm font-medium leading-5">{label}</span>
+      <div className="w-full">{children}</div>
+      <p className="text-xs text-muted-foreground leading-relaxed min-h-[2.5rem]">{hint}</p>
     </div>
   );
 }
