@@ -23,6 +23,7 @@ class CandidateResult(TypedDict):
 class ScreeningResponse(TypedDict):
     job_title: str
     job_description: str
+    scoring_mode: str
     candidates: list[CandidateResult]
 
 

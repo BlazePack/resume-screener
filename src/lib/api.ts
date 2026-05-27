@@ -21,6 +21,7 @@ export type Candidate = {
 export type ScreeningResult = {
   job_title: string;
   job_description: string;
+  scoring_mode?: string;
   candidates: Candidate[];
 };
 
@@ -46,14 +47,30 @@ export type BiasResult = {
 };
 
 const API_BASE = import.meta.env.VITE_API_URL ?? "";
+const FETCH_TIMEOUT_MS = 90_000;
 
 async function getJson<T>(path: string): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`);
-  if (!res.ok) {
-    const detail = await res.text();
-    throw new Error(detail || `Request failed (${res.status})`);
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+  try {
+    const res = await fetch(`${API_BASE}${path}`, { signal: controller.signal });
+    const text = await res.text();
+    if (!res.ok) {
+      throw new Error(text.startsWith("<!DOCTYPE") ? "API returned an HTML error page — is Render running?" : text || `Request failed (${res.status})`);
+    }
+    try {
+      return JSON.parse(text) as T;
+    } catch {
+      throw new Error("API returned non-JSON. Check VITE_API_URL and that Render is Live.");
+    }
+  } catch (e) {
+    if (e instanceof Error && e.name === "AbortError") {
+      throw new Error("Request timed out. Render free tier may be waking up — wait 30s and try again.");
+    }
+    throw e;
+  } finally {
+    clearTimeout(timer);
   }
-  return res.json() as Promise<T>;
 }
 
 export function fetchScreening(job = "se-intern") {

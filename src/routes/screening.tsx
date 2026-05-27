@@ -146,6 +146,11 @@ function Screening() {
             Score & Rank
           </Button>
         </div>
+        {loading && (
+          <p className="mt-4 text-sm text-muted-foreground">
+            Calling the API on Render — usually 5–15 seconds (first request after sleep can take longer).
+          </p>
+        )}
         {error && (
           <p className="mt-4 text-sm text-destructive rounded-md border border-destructive/30 bg-destructive/10 p-3">
             {error}
@@ -155,6 +160,12 @@ function Screening() {
 
       {result && (
         <>
+          {result.scoring_mode === "tfidf-fallback" && (
+            <p className="mb-4 text-sm rounded-md border border-border bg-muted/50 px-3 py-2 text-muted-foreground">
+              Running in <strong>lightweight mode</strong> on Render free tier (TF-IDF + spaCy). Full embedding
+              models need more than 512MB RAM.
+            </p>
+          )}
           <section className="rounded-xl border border-border bg-card p-5 mb-8">
             <h2 className="text-lg font-semibold mb-4">Top 5 final scores</h2>
             <div className="h-56">

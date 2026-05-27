@@ -2,7 +2,11 @@
 Configuration for the resume screener pipeline.
 Adjust thresholds here for live demos during your presentation.
 """
+import os
 from pathlib import Path
+
+# Set USE_EMBEDDINGS=false on Render free tier (512MB cannot load PyTorch models).
+USE_EMBEDDINGS = os.getenv("USE_EMBEDDINGS", "true").lower() not in ("0", "false", "no")
 
 # Project root (parent of backend/)
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -27,6 +31,11 @@ WEIGHT_ENTITY_SIGNAL = 0.10
 
 # Candidates at or above this score are "sent to human review"
 PASS_THRESHOLD = 0.50
+PASS_THRESHOLD_LIGHTWEIGHT = 0.28
+
+
+def active_pass_threshold() -> float:
+    return PASS_THRESHOLD if USE_EMBEDDINGS else PASS_THRESHOLD_LIGHTWEIGHT
 
 # Skills we look for in resumes (matched case-insensitively)
 SKILL_LEXICON = [

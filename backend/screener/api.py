@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.screener.bias_demo import run_bias_demo
 from backend.screener.ner_extractor import spacy_status
 from backend.screener.ranker import run_screening
-from backend.screener.semantic_scorer import embedding_status
+from backend.screener.semantic_scorer import embedding_status, embeddings_enabled, scoring_mode
 
 app = FastAPI(
     title="Resume Screener API",
@@ -15,7 +15,6 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# Local dev defaults; production sets ALLOWED_ORIGINS on Render (use * for school demos)
 _cors_origins = os.getenv("ALLOWED_ORIGINS", "").strip()
 if _cors_origins == "*":
     app.add_middleware(
@@ -52,10 +51,28 @@ else:
 
 @app.get("/api/health")
 def health():
-    emb = embedding_status()
     sp = spacy_status()
     return {
-        "status": "ok" if emb["available"] else "degraded",
+        "status": "ok",
+        "scoring_mode": scoring_mode(),
+        "embeddings_enabled": embeddings_enabled(),
+        "embedding_model": os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2"),
+        "embedding_ready": False,
+        "spacy_ready": sp["available"],
+        "errors": {
+            "spacy": sp.get("error") or None,
+        },
+    }
+
+
+@app.get("/api/readiness")
+def readiness():
+    emb = embedding_status()
+    sp = spacy_status()
+    ok = sp["available"] and (emb["available"] or not embeddings_enabled())
+    return {
+        "status": "ok" if ok else "degraded",
+        "scoring_mode": scoring_mode(),
         "embedding_model": emb.get("model"),
         "embedding_ready": emb["available"],
         "spacy_ready": sp["available"],

@@ -7,6 +7,8 @@ This project is **two parts**:
 | **Website** (React) | [Netlify](https://netlify.com) | Official TanStack Start partner |
 | **AI API** (Python + ML) | [Render](https://render.com) | Netlify cannot run spaCy + sentence-transformers |
 
+**Render free tier (512MB):** the API runs in **lightweight mode** — TF-IDF + spaCy + skill matching (no PyTorch embeddings). Still real NLP; just not the heavy embedding model.
+
 ## 1. Push to GitHub
 
 Already in your repo after setup — connect Netlify to that repository.

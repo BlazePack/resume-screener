@@ -1,14 +1,16 @@
-# Deploy the Python NLP API on Render (free tier works for class demos; first boot is slow).
+# Render free tier (512MB) — lightweight NLP only (no PyTorch / sentence-transformers).
 # After deploy, set VITE_API_URL on Netlify to your Render URL (no trailing slash).
 services:
   - type: web
     name: resume-screener-api
     runtime: python
     plan: free
-    buildCommand: pip install -r backend/requirements.txt && python -m spacy download en_core_web_sm
+    buildCommand: pip install -r backend/requirements-render.txt && python -m spacy download en_core_web_sm
     startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
         value: "3.12.8"
       - key: ALLOWED_ORIGINS
         value: "*"
+      - key: USE_EMBEDDINGS
+        value: "false"

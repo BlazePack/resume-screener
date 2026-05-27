@@ -6,7 +6,7 @@ Mirrors the filtering stage in commercial ATS tools: rank everyone, then cut a l
 from pathlib import Path
 
 from backend.config import (
-    PASS_THRESHOLD,
+    active_pass_threshold,
     WEIGHT_ENTITY_SIGNAL,
     WEIGHT_SEMANTIC,
     WEIGHT_SKILL_MATCH,
@@ -16,7 +16,7 @@ from backend.screener.ingest import load_job_description, list_screening_resumes
 from backend.screener.ner_extractor import entity_signal_score, extract_entities, extract_skills
 from backend.screener.parser import guess_display_name, parse_resume
 from backend.screener.schemas import CandidateResult, ScreeningResponse
-from backend.screener.semantic_scorer import semantic_similarity
+from backend.screener.semantic_scorer import embeddings_enabled, scoring_mode, semantic_similarity
 from backend.screener.tfidf_baseline import tfidf_scores
 
 
@@ -26,10 +26,27 @@ def _skill_match_ratio(job_text: str, resume_text: str) -> float:
     if not job_skills:
         return 0.0
     hits = sum(1 for s in job_skills if s in resume_skills)
-    # HTML + CSS often appears instead of the phrase "web development" on student resumes
     if "Web Development" in job_skills and {"HTML", "CSS"}.issubset(resume_skills):
         hits += 1
     return min(1.0, hits / len(job_skills))
+
+
+def _similarity_score(
+    job_text: str,
+    resume_text: str,
+    *,
+    applicant_name: str | None,
+    tfidf: float | None,
+) -> float:
+    """Semantic embeddings when available; otherwise TF-IDF cosine (keyword-style)."""
+    if embeddings_enabled():
+        try:
+            return semantic_similarity(job_text, resume_text, applicant_name=applicant_name)
+        except RuntimeError:
+            pass
+    if tfidf is not None:
+        return tfidf
+    return tfidf_scores(job_text, [resume_text])[0]
 
 
 def score_resume(job_text: str, raw_resume: str, *, tfidf: float | None = None) -> CandidateResult:
@@ -38,7 +55,10 @@ def score_resume(job_text: str, raw_resume: str, *, tfidf: float | None = None) 
     name = guess_display_name(full_text)
 
     extracted = extract_entities(full_text)
-    semantic = semantic_similarity(job_text, full_text, applicant_name=name)
+    if tfidf is None:
+        tfidf = tfidf_scores(job_text, [full_text])[0]
+
+    semantic = _similarity_score(job_text, full_text, applicant_name=name, tfidf=tfidf)
     skills = _skill_match_ratio(job_text, full_text)
     entity_sig = entity_signal_score(extracted)
 
@@ -48,14 +68,14 @@ def score_resume(job_text: str, raw_resume: str, *, tfidf: float | None = None) 
         + WEIGHT_ENTITY_SIGNAL * entity_sig
     )
     final = round(max(0.0, min(1.0, final)), 4)
-    decision = "human_review" if final >= PASS_THRESHOLD else "rejected"
+    decision = "human_review" if final >= active_pass_threshold() else "rejected"
 
     return {
         "id": "00",
         "name": name,
         "semantic_score": round(semantic, 4),
         "skill_match": round(skills, 4),
-        "tfidf_score": round(tfidf or 0.0, 4),
+        "tfidf_score": round(tfidf, 4),
         "final_score": final,
         "decision": decision,
         "explanation": build_explanation(
@@ -77,7 +97,7 @@ def run_screening(job_slug: str = "se-intern") -> ScreeningResponse:
     raw_texts = [load_text(p) for p in resume_paths]
     tfidf_list = tfidf_scores(
         job_text,
-        [str(parse_resume(t)["scoring_text"]) for t in raw_texts],
+        [str(parse_resume(t)["full_text"]) for t in raw_texts],
     )
 
     candidates: list[CandidateResult] = []
@@ -90,6 +110,7 @@ def run_screening(job_slug: str = "se-intern") -> ScreeningResponse:
     return {
         "job_title": job_title,
         "job_description": job_text,
+        "scoring_mode": scoring_mode(),
         "candidates": candidates,
     }
 

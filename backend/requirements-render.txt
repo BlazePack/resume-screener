@@ -1,0 +1,9 @@
+# Lightweight deps for Render free tier (512MB RAM).
+# Omits sentence-transformers / PyTorch — uses TF-IDF + spaCy instead.
+spacy>=3.7.0
+scikit-learn>=1.4.0
+numpy>=1.26.0
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+
+# After pip install: python -m spacy download en_core_web_sm
