@@ -53,6 +53,7 @@ const steps = [
   },
   {
     icon: Database,
+    title: "Training data matters",
     body: "Small skewed datasets amplify bias (names, club wording). Large diverse sets + debiasing reduce it.",
     module: "training_regime",
   },
