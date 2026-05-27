@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+  publish = "dist/client"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# TanStack Start serverless handler (created by @netlify/vite-plugin-tanstack-start)
+[functions]
+  directory = ".netlify/v1/functions"
+
+[dev]
+  command = "npm run dev"
+  port = 3000

@@ -1,0 +1,9 @@
+Software Engineer Intern
+
+Looking for a high school intern with Python, basic web development, and curiosity for AI/ML.
+Bonus skills: Git, SQL, teamwork in clubs or hackathons.
+
+Responsibilities:
+- Build small Python scripts and web demos
+- Collaborate with a mentor on debugging and code reviews
+- Learn version control with Git and GitHub

@@ -1,0 +1,20 @@
+Jamala Washington
+jamala.w@studentmail.edu
+
+Education
+Lincoln High School — 2026
+Honors programming sequence; intro to data science elective
+
+Experience
+High School Robotics Club — Programmer (2023 – 2025)
+- Python automation for sensor calibration
+- Collaborated on GitHub with shared branches
+
+Skills
+Python, Git, SQL
+
+Projects
+Weather dashboard — Python scripts pulling public API data
+
+Activities
+Robotics outreach events; coding club meetings

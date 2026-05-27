@@ -1,0 +1,21 @@
+Alex Chen
+alex.chen@studentmail.edu | github.com/alexchen
+
+Education
+Lincoln High School — Expected graduation 2026
+Relevant coursework: AP Computer Science, AP Statistics
+
+Experience
+High School Robotics Club — Software Lead (2023 – 2025)
+- Wrote Python control scripts for the competition robot
+- Used Git for team codebase; mentored two freshmen on debugging
+
+Projects
+Personal task tracker — Python, SQL, Git
+- Built a CLI app with SQLite storage and unit tests
+
+Skills
+Python, Git, SQL, JavaScript
+
+Activities
+Code.org volunteer tutor; weekend hackathons

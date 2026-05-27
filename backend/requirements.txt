@@ -1,0 +1,12 @@
+# AI / NLP pipeline
+sentence-transformers>=3.0.0
+spacy>=3.7.0
+scikit-learn>=1.4.0
+numpy>=1.26.0
+
+# API server
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+
+# After pip install, download the spaCy English model:
+#   python -m spacy download en_core_web_sm

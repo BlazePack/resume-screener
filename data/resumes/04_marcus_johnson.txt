@@ -1,0 +1,19 @@
+Marcus Johnson
+marcus.j@studentmail.edu
+
+Education
+Westview High — 2026
+Strong math track; one year of Java in Intro to Programming
+
+Experience
+Math Olympiad Team — Competitor (2023 – 2025)
+- Practiced algorithmic problem solving weekly
+
+Projects
+Calculator lab assignments in Python and Java
+
+Skills
+Python, Java
+
+Activities
+Peer math tutoring; chess club

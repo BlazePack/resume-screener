@@ -1,0 +1,21 @@
+Priya Patel
+priya.patel@studentmail.edu
+
+Education
+Riverside High — Class of 2026
+AP Computer Science A, Web Design elective
+
+Experience
+Girls Who Code — Club member (2022 – 2025)
+- Built React front-end pages for a club portfolio site
+- Participated in a local hackathon team project
+
+Projects
+Study buddy web app — Python backend, HTML, CSS, React
+- Deployed demo on GitHub Pages; used Git for version control
+
+Skills
+Python, React, HTML, CSS, Git
+
+Activities
+Local Hackathon 2024 (team award); peer tutoring in algebra
