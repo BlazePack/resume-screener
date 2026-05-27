@@ -12,6 +12,10 @@ This is a **simulation only** — not used by any real employer.
 | `data/`    | `.txt` job description + 8 sample resumes                   | Demo inputs                                       |
 | `src/`     | React, TanStack Start, Tailwind, Recharts                   | Presentation website                              |
 
+## Deploy online (Netlify + Render)
+
+See **[DEPLOY.md](./DEPLOY.md)** — the website goes on Netlify; the Python AI API goes on Render (Netlify cannot run the ML models).
+
 ## Quick start
 
 ### 1. Python API (required for live scores)
