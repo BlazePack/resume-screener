@@ -80,7 +80,6 @@ function BiasPage() {
 
       {active && data && (
         <>
-          <CompareModes data={data} />
           <Demo
             title="Name swap (same resume)"
             explainer="Only the name changes. If scores move a lot, the model is using the name as a signal."
@@ -113,48 +112,6 @@ function ModeButton({
     >
       {label}
     </button>
-  );
-}
-
-function CompareModes({ data }: { data: FullBiasResult }) {
-  const rows = [
-    {
-      test: "Name swap gap",
-      low: Math.abs(Math.round(data.low_data.name_swap.delta * 100)),
-      heavy: Math.abs(Math.round(data.heavy_data.name_swap.delta * 100)),
-    },
-    {
-      test: "Phrase swap gap",
-      low: Math.abs(Math.round(data.low_data.phrase_swap.delta * 100)),
-      heavy: Math.abs(Math.round(data.heavy_data.phrase_swap.delta * 100)),
-    },
-  ];
-
-  return (
-    <section className="rounded-xl border border-border bg-card p-6">
-      <h2 className="text-xl font-semibold">Small vs large training set</h2>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Bigger gap = more bias on identical resumes. Large diverse training should stay close to 0.
-      </p>
-      <div className="mt-4 h-56">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={rows}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
-            <XAxis dataKey="test" fontSize={11} stroke="var(--color-muted-foreground)" />
-            <YAxis domain={[0, 20]} fontSize={11} stroke="var(--color-muted-foreground)" />
-            <Tooltip
-              contentStyle={{
-                background: "var(--color-card)",
-                border: "1px solid var(--color-border)",
-                borderRadius: 8,
-              }}
-            />
-            <Bar name="Small dataset" dataKey="low" fill="var(--color-chart-3)" radius={[6, 6, 0, 0]} />
-            <Bar name="Large dataset" dataKey="heavy" fill="var(--color-primary)" radius={[6, 6, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-    </section>
   );
 }
 
