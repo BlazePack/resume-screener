@@ -22,6 +22,8 @@ export type ScreeningResult = {
   job_title: string;
   job_description: string;
   scoring_mode?: string;
+  training_mode?: string;
+  training_label?: string;
   candidates: Candidate[];
 };
 
@@ -40,9 +42,21 @@ export type MethodCompareRow = {
   tfidf: number;
 };
 
-export type BiasResult = {
+export type BiasTrainingModeResult = {
+  training_mode: string;
+  label: string;
+  description: string;
   name_swap: BiasPair;
   phrase_swap: BiasPair;
+};
+
+export type FullBiasResult = {
+  low_data: BiasTrainingModeResult;
+  heavy_data: BiasTrainingModeResult;
+  method_compare: MethodCompareRow[];
+};
+
+export type BiasResult = BiasTrainingModeResult & {
   method_compare: MethodCompareRow[];
 };
 
@@ -77,12 +91,18 @@ async function getJson<T>(path: string): Promise<T> {
   }
 }
 
-export function fetchScreening(job = "se-intern") {
-  return getJson<ScreeningResult>(`/api/screen?job=${encodeURIComponent(job)}`);
+export function fetchScreening(job = "se-intern", training = "heavy_data") {
+  return getJson<ScreeningResult>(
+    `/api/screen?job=${encodeURIComponent(job)}&training=${encodeURIComponent(training)}`,
+  );
 }
 
-export function fetchBiasDemo() {
-  return getJson<BiasResult>("/api/bias");
+export function fetchBiasDemoFull() {
+  return getJson<FullBiasResult>("/api/bias");
+}
+
+export function fetchBiasDemo(training: "low_data" | "heavy_data") {
+  return getJson<BiasResult>(`/api/bias?training=${encodeURIComponent(training)}`);
 }
 
 export function fetchHealth() {

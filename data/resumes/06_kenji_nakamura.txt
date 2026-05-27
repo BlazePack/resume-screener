@@ -1,0 +1,21 @@
+Kenji Nakamura
+kenji.n@studentmail.edu | github.com/kenjin
+
+Education
+Northview High — Class of 2026
+AP Computer Science, Robotics elective
+
+Experience
+Game Dev Club — Programmer (2022 – 2025)
+- Python tooling, JavaScript mini-games, shared Git repo
+- SQL leaderboard for club tournaments
+
+Projects
+Puzzle game — JavaScript, HTML, CSS, Python, Git
+- Built levels in Python generator; front end in React
+
+Skills
+Python, JavaScript, React, HTML, CSS, SQL, Git, GitHub, programming, teamwork, debugging
+
+Activities
+Regional hackathon; chess club treasurer

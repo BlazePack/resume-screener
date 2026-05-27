@@ -1,0 +1,21 @@
+Maria Santos
+maria.s@studentmail.edu
+
+Education
+Central High — Class of 2026
+Honors programming, Web design, Algebra II
+
+Experience
+Yearbook Tech Team — Developer (2023 – 2025)
+- HTML, CSS, JavaScript gallery; Git for photo tagging tools
+- Python script to batch resize images
+
+Projects
+Portfolio site — HTML, CSS, JavaScript, Python, Git
+- Responsive layout; small Python contact form backend
+
+Skills
+Python, JavaScript, HTML, CSS, Git, SQL, web development, programming, teamwork, hackathon
+
+Activities
+Spanish club web lead; school hackathon participant

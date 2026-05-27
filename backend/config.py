@@ -29,9 +29,13 @@ WEIGHT_SEMANTIC = 0.60
 WEIGHT_SKILL_MATCH = 0.30
 WEIGHT_ENTITY_SIGNAL = 0.10
 
+# Lighter weights when Render uses TF-IDF instead of embeddings (better score spread)
+WEIGHT_SEMANTIC_LIGHT = 0.20
+WEIGHT_SKILL_LIGHT = 0.70
+
 # Candidates at or above this score are "sent to human review"
 PASS_THRESHOLD = 0.50
-PASS_THRESHOLD_LIGHTWEIGHT = 0.28
+PASS_THRESHOLD_LIGHTWEIGHT = 0.52
 
 
 def active_pass_threshold() -> float:

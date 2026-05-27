@@ -57,14 +57,14 @@ function Home() {
           },
           {
             icon: Sparkles,
-            title: "Score 8 resumes",
-            body: "Try a sample Software Engineer Intern job and see who ranks highest.",
+            title: "Score 12 resumes",
+            body: "Try the sample intern job. Most scores land in the 70s-90s; a few fall lower on purpose.",
             to: "/screening",
           },
           {
             icon: ShieldAlert,
-            title: "Bias tests",
-            body: "Same resume, different name or one club line. Watch the score change.",
+            title: "Bias & training data",
+            body: "Flip between small vs large training sets and watch bias shrink.",
             to: "/bias",
           },
         ].map((c) => (

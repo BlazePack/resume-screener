@@ -1,21 +1,21 @@
 Priya Patel
-priya.patel@studentmail.edu
+priya.patel@studentmail.edu | github.com/priyapatel
 
 Education
 Riverside High — Class of 2026
-AP Computer Science A, Web Design elective
+AP Computer Science A, Web Design, Data Science elective
 
 Experience
-Girls Who Code — Club member (2022 – 2025)
-- Built React front-end pages for a club portfolio site
-- Participated in a local hackathon team project
+Coding Club — Co-president (2022 – 2025)
+- React and Python projects; team GitHub with pull requests
+- Organized school hackathon with 40+ participants
 
 Projects
-Study buddy web app — Python backend, HTML, CSS, React
-- Deployed demo on GitHub Pages; used Git for version control
+Study planner — Python, SQL, React, HTML, CSS, Git
+- Full stack demo deployed on GitHub Pages
 
 Skills
-Python, React, HTML, CSS, Git
+Python, JavaScript, React, HTML, CSS, SQL, Git, GitHub, web development, teamwork, hackathon, programming
 
 Activities
-Local Hackathon 2024 (team award); peer tutoring in algebra
+State hackathon finalist; math peer tutor

@@ -20,13 +20,6 @@ class CandidateResult(TypedDict):
     extracted: ExtractedEntities
 
 
-class ScreeningResponse(TypedDict):
-    job_title: str
-    job_description: str
-    scoring_mode: str
-    candidates: list[CandidateResult]
-
-
 class BiasVariant(TypedDict):
     label: str
     final_score: float
@@ -46,6 +39,32 @@ class MethodCompareRow(TypedDict):
 
 
 class BiasResponse(TypedDict):
+    training_mode: str
+    label: str
+    description: str
     name_swap: BiasPair
     phrase_swap: BiasPair
     method_compare: list[MethodCompareRow]
+
+
+class BiasTrainingModeResult(TypedDict):
+    training_mode: str
+    label: str
+    description: str
+    name_swap: BiasPair
+    phrase_swap: BiasPair
+
+
+class FullBiasResponse(TypedDict):
+    low_data: BiasTrainingModeResult
+    heavy_data: BiasTrainingModeResult
+    method_compare: list[MethodCompareRow]
+
+
+class ScreeningResponse(TypedDict):
+    job_title: str
+    job_description: str
+    scoring_mode: str
+    training_mode: str
+    training_label: str
+    candidates: list[CandidateResult]

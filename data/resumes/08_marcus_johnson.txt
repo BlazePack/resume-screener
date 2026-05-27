@@ -1,0 +1,21 @@
+Marcus Johnson
+marcus.j@studentmail.edu
+
+Education
+Westview High — Class of 2026
+AP Computer Science, AP Calculus
+
+Experience
+Math Olympiad Team — Captain (2022 – 2025)
+- Algorithm practice in Python and Java
+- Tutored underclassmen on loops and data structures
+
+Projects
+Olympiad problem set tracker — Python, Java, Git
+- Tagged problems by topic; shared with team on GitHub
+
+Skills
+Python, Java, Git, programming, debugging, teamwork
+
+Activities
+Chess club; peer tutoring

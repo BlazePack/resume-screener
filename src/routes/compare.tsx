@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
-import { fetchBiasDemo, type MethodCompareRow } from "@/lib/api";
+import { fetchBiasDemoFull, type MethodCompareRow } from "@/lib/api";
 import {
   Bar,
   BarChart,
@@ -33,7 +33,7 @@ function Compare() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchBiasDemo()
+    fetchBiasDemoFull()
       .then((d) => setData(d.method_compare))
       .catch((e) => setError(e instanceof Error ? e.message : "Could not load chart data"))
       .finally(() => setLoading(false));

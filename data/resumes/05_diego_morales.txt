@@ -1,0 +1,21 @@
+Diego Morales
+diego.m@studentmail.edu | github.com/diegomorales
+
+Education
+Eastside High — Class of 2026
+AP Computer Science A, Dual enrollment web development
+
+Experience
+Library Tech Volunteer — Web assistant (2023 – 2025)
+- HTML, CSS, JavaScript pages; Git for site updates
+- Python scripts to clean catalog exports
+
+Projects
+Club signup site — React, HTML, CSS, Python, Git, SQL
+- Forms backed by SQLite; deployed for school clubs
+
+Skills
+Python, JavaScript, React, HTML, CSS, SQL, Git, web development, programming, teamwork, hackathon
+
+Activities
+Latino STEM network meetups; local hackathon team lead

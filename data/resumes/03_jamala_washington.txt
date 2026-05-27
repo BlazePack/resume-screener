@@ -1,20 +1,21 @@
 Jamala Washington
-jamala.w@studentmail.edu
+jamala.w@studentmail.edu | github.com/jamalaw
 
 Education
-Lincoln High School — 2026
-Honors programming sequence; intro to data science elective
+Lincoln High School — Class of 2026
+AP Computer Science, Intro to Machine Learning
 
 Experience
-High School Robotics Club — Programmer (2023 – 2025)
-- Python automation for sensor calibration
-- Collaborated on GitHub with shared branches
-
-Skills
-Python, Git, SQL
+High School Robotics Club — Lead Programmer (2022 – 2025)
+- Python automation, sensor pipelines, Git branching with four developers
+- Wrote SQL reports for scouting data
 
 Projects
-Weather dashboard — Python scripts pulling public API data
+Weather API dashboard — Python, JavaScript, SQL, Git
+- Pulled live data; documented setup for new members
+
+Skills
+Python, JavaScript, SQL, Git, GitHub, machine learning, AI, robotics, teamwork, hackathon, debugging
 
 Activities
-Robotics outreach events; coding club meetings
+Robotics state qualifier; weekend hackathons

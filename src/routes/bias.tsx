@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { AlertTriangle, Loader2 } from "lucide-react";
-import { fetchBiasDemo, type BiasPair } from "@/lib/api";
+import { fetchBiasDemoFull, type BiasPair, type FullBiasResult } from "@/lib/api";
 import {
   Bar,
   BarChart,
@@ -19,34 +19,57 @@ export const Route = createFileRoute("/bias")({
       { title: "Bias tests | Resume Screener" },
       {
         name: "description",
-        content: "Change a name or one line on the same resume and see if the score changes.",
+        content: "Compare small vs large training data and see how bias changes.",
       },
     ],
   }),
   component: BiasPage,
 });
 
+type TrainingPick = "low_data" | "heavy_data";
+
 function BiasPage() {
-  const [data, setData] = useState<{ name_swap: BiasPair; phrase_swap: BiasPair } | null>(null);
+  const [data, setData] = useState<FullBiasResult | null>(null);
+  const [mode, setMode] = useState<TrainingPick>("low_data");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchBiasDemo()
-      .then((d) => setData({ name_swap: d.name_swap, phrase_swap: d.phrase_swap }))
+    fetchBiasDemoFull()
+      .then(setData)
       .catch((e) => setError(e instanceof Error ? e.message : "Could not load bias demo"))
       .finally(() => setLoading(false));
   }, []);
 
+  const active = data?.[mode];
+
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12 space-y-12">
+    <div className="max-w-5xl mx-auto px-4 py-12 space-y-10">
       <header>
-        <h1 className="text-3xl md:text-4xl font-bold">Bias tests</h1>
+        <h1 className="text-3xl md:text-4xl font-bold">Bias & training data</h1>
         <p className="mt-2 text-muted-foreground max-w-2xl">
-          Same resume, tiny change (name or one activity line). The score should stay the same in a fair
-          system. Sometimes it does not.
+          Real hiring models learn from past resumes and hires. A small or one-sided training set
+          often picks up shortcuts (names, club names). A large, diverse set plus debiasing can
+          reduce that.
         </p>
       </header>
+
+      <section className="rounded-xl border border-border bg-card p-5">
+        <p className="text-sm font-medium mb-3">Training data size</p>
+        <div className="inline-flex rounded-lg border border-border bg-muted p-1 text-sm">
+          <ModeButton
+            active={mode === "low_data"}
+            onClick={() => setMode("low_data")}
+            label="Small dataset"
+          />
+          <ModeButton
+            active={mode === "heavy_data"}
+            onClick={() => setMode("heavy_data")}
+            label="Large diverse dataset"
+          />
+        </div>
+        {active && <p className="mt-3 text-sm text-muted-foreground">{active.description}</p>}
+      </section>
 
       {loading && (
         <p className="text-muted-foreground flex items-center gap-2">
@@ -55,29 +78,18 @@ function BiasPage() {
       )}
       {error && <p className="text-destructive text-sm">{error}</p>}
 
-      {data && (
+      {active && data && (
         <>
+          <CompareModes data={data} />
           <Demo
-            title="Name swap"
-            explainer={
-              <>
-                Same resume, different name. Score should not change. Amazon shut down a hiring tool in
-                2018 after it treated resumes with the word &quot;women&apos;s&quot; worse (Reuters).
-              </>
-            }
-            data={data.name_swap}
+            title="Name swap (same resume)"
+            explainer="Only the name changes. If scores move a lot, the model is using the name as a signal."
+            data={active.name_swap}
           />
-
           <Demo
-            title="Phrase swap"
-            explainer={
-              <>
-                One line in activities changes (&quot;Coding Club&quot; vs &quot;Women&apos;s Coding
-                Club&quot;). Even a small score change shows the model is reacting to wording, not just
-                skills.
-              </>
-            }
-            data={data.phrase_swap}
+            title="Phrase swap (same resume)"
+            explainer={'Changing "Coding Club" to "Women\'s Coding Club" should not change the score in a fair system.'}
+            data={active.phrase_swap}
           />
         </>
       )}
@@ -85,15 +97,68 @@ function BiasPage() {
   );
 }
 
-function Demo({
-  title,
-  explainer,
-  data,
+function ModeButton({
+  active,
+  onClick,
+  label,
 }: {
-  title: string;
-  explainer: React.ReactNode;
-  data: BiasPair;
+  active: boolean;
+  onClick: () => void;
+  label: string;
 }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`px-3 py-1.5 rounded-md ${active ? "bg-card shadow-sm font-medium" : "text-muted-foreground"}`}
+    >
+      {label}
+    </button>
+  );
+}
+
+function CompareModes({ data }: { data: FullBiasResult }) {
+  const rows = [
+    {
+      test: "Name swap gap",
+      low: Math.abs(Math.round(data.low_data.name_swap.delta * 100)),
+      heavy: Math.abs(Math.round(data.heavy_data.name_swap.delta * 100)),
+    },
+    {
+      test: "Phrase swap gap",
+      low: Math.abs(Math.round(data.low_data.phrase_swap.delta * 100)),
+      heavy: Math.abs(Math.round(data.heavy_data.phrase_swap.delta * 100)),
+    },
+  ];
+
+  return (
+    <section className="rounded-xl border border-border bg-card p-6">
+      <h2 className="text-xl font-semibold">Small vs large training set</h2>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Bigger gap = more bias on identical resumes. Large diverse training should stay close to 0.
+      </p>
+      <div className="mt-4 h-56">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={rows}>
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
+            <XAxis dataKey="test" fontSize={11} stroke="var(--color-muted-foreground)" />
+            <YAxis domain={[0, 20]} fontSize={11} stroke="var(--color-muted-foreground)" />
+            <Tooltip
+              contentStyle={{
+                background: "var(--color-card)",
+                border: "1px solid var(--color-border)",
+                borderRadius: 8,
+              }}
+            />
+            <Bar name="Small dataset" dataKey="low" fill="var(--color-chart-3)" radius={[6, 6, 0, 0]} />
+            <Bar name="Large dataset" dataKey="heavy" fill="var(--color-primary)" radius={[6, 6, 0, 0]} />
+          </BarChart>
+        </ResponsiveContainer>
+      </div>
+    </section>
+  );
+}
+
+function Demo({ title, explainer, data }: { title: string; explainer: string; data: BiasPair }) {
   const [b, setB] = useState(false);
   const active = b ? data.variant_b : data.variant_a;
   const chart = [
@@ -124,10 +189,10 @@ function Demo({
             <div className="text-xs uppercase tracking-wider text-muted-foreground">Final score</div>
             <div className="text-4xl font-bold mt-1">{Math.round(active.final_score * 100)}%</div>
             <div className="mt-3 text-sm">
-              Change vs first option:{" "}
+              Gap:{" "}
               <span
                 className={
-                  data.delta < 0 ? "text-destructive font-semibold" : "text-success font-semibold"
+                  Math.abs(data.delta) >= 0.05 ? "text-destructive font-semibold" : "text-success font-semibold"
                 }
               >
                 {data.delta > 0 ? "+" : ""}
@@ -165,7 +230,7 @@ function Demo({
           </ResponsiveContainer>
         </div>
       </div>
-      <div className="mt-4 text-sm text-muted-foreground">{explainer}</div>
+      <p className="mt-4 text-sm text-muted-foreground">{explainer}</p>
     </section>
   );
 }

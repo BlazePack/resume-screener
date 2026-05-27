@@ -54,6 +54,7 @@ function StatusBadge({ d }: { d: string }) {
 
 function Screening() {
   const [job, setJob] = useState("se-intern");
+  const [training, setTraining] = useState<"heavy_data" | "low_data">("heavy_data");
   const [result, setResult] = useState<ScreeningResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -67,7 +68,7 @@ function Screening() {
     setLoading(true);
     setError(null);
     try {
-      const data = await fetchScreening(job);
+      const data = await fetchScreening(job, training);
       setResult(data);
     } catch (e) {
       setError(
@@ -109,11 +110,11 @@ function Screening() {
     <div className="max-w-6xl mx-auto px-4 py-10">
       <header className="mb-8">
         <h1 className="text-3xl md:text-4xl font-bold">Screening</h1>
-        <p className="mt-2 text-muted-foreground">Pick the sample job, then score all 8 resumes.</p>
+        <p className="mt-2 text-muted-foreground">Pick the sample job and training set, then score all 12 resumes.</p>
       </header>
 
       <section className="rounded-xl border border-border bg-card p-5 mb-8">
-        <div className="grid md:grid-cols-[1fr_1fr_auto] gap-4 items-end">
+        <div className="grid md:grid-cols-[1fr_1fr_1fr_auto] gap-4 items-end">
           <div>
             <label className="text-sm font-medium mb-1.5 block">Job description</label>
             <Select value={job} onValueChange={setJob}>
@@ -130,9 +131,24 @@ function Screening() {
             </p>
           </div>
           <div>
+            <label className="text-sm font-medium mb-1.5 block">Training data</label>
+            <Select value={training} onValueChange={(v) => setTraining(v as "heavy_data" | "low_data")}>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="heavy_data">Large diverse dataset</SelectItem>
+                <SelectItem value="low_data">Small skewed dataset</SelectItem>
+              </SelectContent>
+            </Select>
+            <p className="mt-2 text-xs text-muted-foreground">
+              Small set simulates biased historical hiring data.
+            </p>
+          </div>
+          <div>
             <label className="text-sm font-medium mb-1.5 block">Resumes</label>
             <div className="h-9 px-3 rounded-md border border-input bg-background flex items-center text-sm">
-              8 sample resumes from data/resumes/
+              12 sample resumes
             </div>
           </div>
           <Button size="lg" onClick={runScore} disabled={loading}>
@@ -158,7 +174,13 @@ function Screening() {
 
       {result && (
         <>
-          {result.scoring_mode === "tfidf-fallback" && (
+          {result.training_label && (
+            <p className="mb-4 text-sm rounded-md border border-border bg-muted/50 px-3 py-2 text-muted-foreground">
+              Scored with: <strong>{result.training_label}</strong>
+              {result.scoring_mode === "tfidf-fallback" && " · light server mode (keywords + spaCy)"}
+            </p>
+          )}
+          {result.scoring_mode === "tfidf-fallback" && !result.training_label && (
             <p className="mb-4 text-sm rounded-md border border-border bg-muted/50 px-3 py-2 text-muted-foreground">
               <strong>Light mode:</strong> using keywords + spaCy (free server cannot load the big embedding
               model).

@@ -1,0 +1,21 @@
+Sofia Rodriguez
+sofia.r@studentmail.edu
+
+Education
+Central High — Class of 2027
+Intro to Programming, Web Design, Photography
+
+Experience
+Yearbook Tech Team — Assistant (2024 – 2025)
+- HTML, CSS layouts; basic Python for photo filenames
+- Helped migrate archives to GitHub
+
+Projects
+Club calendar page — HTML, CSS, JavaScript, Python
+- Static site with embedded Google calendar
+
+Skills
+Python, HTML, CSS, JavaScript, SQL, Git, web development, teamwork, hackathon
+
+Activities
+Art club; library volunteer

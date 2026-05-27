@@ -1,0 +1,21 @@
+Taylor Brooks
+taylor.b@studentmail.edu
+
+Education
+Ridge High — Class of 2026
+One semester intro to programming, Digital literacy
+
+Experience
+Community Center — Front desk (2023 – 2025)
+- Scheduling, email, basic spreadsheet work
+- Helped set up a simple HTML page for events
+
+Projects
+Personal budget sheet — Excel, HTML, CSS
+- No formal CS projects yet; taking Python online this summer
+
+Skills
+HTML, CSS, Excel, Microsoft Office, teamwork
+
+Activities
+Volunteer tutoring; basketball

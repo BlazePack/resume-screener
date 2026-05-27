@@ -1,0 +1,21 @@
+Aisha Okonkwo
+aisha.o@studentmail.edu | github.com/aishaokonkwo
+
+Education
+Westlake High — Class of 2026
+AP Computer Science Principles, AP Calculus BC
+
+Experience
+STEM Research Club — Software lead (2023 – 2025)
+- Python data scripts, Git, SQL databases for lab results
+- Pair programming and code review with teammates
+
+Projects
+ML quiz app — Python, machine learning, SQL, Git
+- Trained a small classifier; README with reproducible steps
+
+Skills
+Python, SQL, Git, GitHub, JavaScript, machine learning, AI, programming, teamwork, hackathon, debugging
+
+Activities
+National coding competition participant; robotics volunteer mentor

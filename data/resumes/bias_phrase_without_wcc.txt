@@ -2,14 +2,14 @@ Alex Chen
 alex.chen@studentmail.edu
 
 Education
-Lincoln High School — 2026
+Lincoln High School — Class of 2026
 
 Experience
-High School Robotics Club — Software Lead (2023 – 2025)
-- Python control code, Git workflow, peer mentoring
+Robotics Club — Software Lead (2022 – 2025)
+- Python, Git, SQL, JavaScript
 
 Skills
-Python, Git, SQL, JavaScript
+Python, Git, SQL, JavaScript, teamwork, hackathon
 
 Activities
-Coding Club member; weekend hackathons
+Coding Club; weekend hackathons

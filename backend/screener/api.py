@@ -4,7 +4,6 @@ import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.screener.bias_demo import run_bias_demo
 from backend.screener.ner_extractor import spacy_status
 from backend.screener.ranker import run_screening
 from backend.screener.semantic_scorer import embedding_status, embeddings_enabled, scoring_mode
@@ -84,9 +83,9 @@ def readiness():
 
 
 @app.get("/api/screen")
-def screen(job: str = "se-intern"):
+def screen(job: str = "se-intern", training: str = "heavy_data"):
     try:
-        return run_screening(job)
+        return run_screening(job, training=training)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except FileNotFoundError as exc:
@@ -96,9 +95,15 @@ def screen(job: str = "se-intern"):
 
 
 @app.get("/api/bias")
-def bias():
+def bias(training: str | None = None):
     try:
-        return run_bias_demo()
+        if training is None:
+            from backend.screener.bias_demo import run_full_bias_demo
+
+            return run_full_bias_demo()
+        from backend.screener.bias_demo import run_bias_demo
+
+        return run_bias_demo(training)
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
     except RuntimeError as exc:

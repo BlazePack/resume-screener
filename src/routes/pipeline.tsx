@@ -51,6 +51,12 @@ const steps = [
     body: "High scores go to human review. Low scores get rejected.",
     module: "ranker",
   },
+  {
+    icon: Brain,
+    title: "Training data matters",
+    body: "Small skewed datasets amplify bias (names, club wording). Large diverse sets + debiasing reduce it.",
+    module: "training_regime",
+  },
 ];
 
 function Pipeline() {
