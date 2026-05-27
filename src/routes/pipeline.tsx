@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { FileText, ScanText, Tags, Brain, Calculator, Filter, ArrowRight } from "lucide-react";
+import { FileText, ScanText, Tags, Brain, Calculator, Filter, ArrowRight, Database } from "lucide-react";
 
 export const Route = createFileRoute("/pipeline")({
   head: () => ({
@@ -52,8 +52,7 @@ const steps = [
     module: "ranker",
   },
   {
-    icon: Brain,
-    title: "Training data matters",
+    icon: Database,
     body: "Small skewed datasets amplify bias (names, club wording). Large diverse sets + debiasing reduce it.",
     module: "training_regime",
   },
