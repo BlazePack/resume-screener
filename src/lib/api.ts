@@ -56,7 +56,11 @@ async function getJson<T>(path: string): Promise<T> {
     const res = await fetch(`${API_BASE}${path}`, { signal: controller.signal });
     const text = await res.text();
     if (!res.ok) {
-      throw new Error(text.startsWith("<!DOCTYPE") ? "API returned an HTML error page — is Render running?" : text || `Request failed (${res.status})`);
+      throw new Error(
+        text.startsWith("<!DOCTYPE")
+          ? "Got an HTML error page. Is the Render API up?"
+          : text || `Request failed (${res.status})`,
+      );
     }
     try {
       return JSON.parse(text) as T;
@@ -65,7 +69,7 @@ async function getJson<T>(path: string): Promise<T> {
     }
   } catch (e) {
     if (e instanceof Error && e.name === "AbortError") {
-      throw new Error("Request timed out. Render free tier may be waking up — wait 30s and try again.");
+      throw new Error("Timed out. Wait 30 seconds and try again (free server may be waking up).");
     }
     throw e;
   } finally {

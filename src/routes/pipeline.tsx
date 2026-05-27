@@ -4,10 +4,10 @@ import { FileText, ScanText, Tags, Brain, Calculator, Filter, ArrowRight } from 
 export const Route = createFileRoute("/pipeline")({
   head: () => ({
     meta: [
-      { title: "Pipeline — How the AI Resume Screener works" },
+      { title: "Pipeline | Resume Screener" },
       {
         name: "description",
-        content: "Step-by-step: upload, parse, NER, embeddings, weighted score, filter.",
+        content: "Steps: upload, parse, find skills, score, filter.",
       },
     ],
   }),
@@ -18,47 +18,47 @@ const steps = [
   {
     icon: FileText,
     title: "Upload",
-    body: "Resume PDFs or text files are loaded into the system.",
-    module: "uploader",
+    body: "Load resume files into the system.",
+    module: "ingest",
   },
   {
     icon: ScanText,
     title: "Parse text",
-    body: "Raw text is extracted and cleaned of formatting noise.",
+    body: "Clean up the text and split it into sections.",
     module: "parser",
   },
   {
     icon: Tags,
-    title: "NER extraction",
-    body: "Named-entity recognition pulls out skills, organizations, schools, and dates.",
+    title: "Find skills & names",
+    body: "Pull out skills, schools, companies, and dates (NER).",
     module: "ner_extractor",
   },
   {
     icon: Brain,
-    title: "Embeddings",
-    body: "The resume and job description are turned into vectors so we can compare meaning, not just keywords.",
+    title: "Compare to job",
+    body: "Match the resume to the job description (embeddings or TF-IDF).",
     module: "semantic_scorer",
   },
   {
     icon: Calculator,
-    title: "Weighted score",
-    body: "Semantic similarity and explicit skill matches combine into a final score (0–100%).",
-    module: "scorer",
+    title: "Final score",
+    body: "Combine match score + skills + other signals into one number.",
+    module: "ranker",
   },
   {
     icon: Filter,
     title: "Filter",
-    body: "Candidates above a threshold are flagged for human review; the rest are rejected.",
-    module: "filter",
+    body: "High scores go to human review. Low scores get rejected.",
+    module: "ranker",
   },
 ];
 
 function Pipeline() {
   return (
     <div className="max-w-5xl mx-auto px-4 py-12">
-      <h1 className="text-3xl md:text-4xl font-bold">The pipeline</h1>
+      <h1 className="text-3xl md:text-4xl font-bold">How it works</h1>
       <p className="mt-2 text-muted-foreground max-w-2xl">
-        This mirrors the Python CLI behind the demo. Each step has a real module you can read.
+        Same steps as the Python code behind this site. Each box matches a file in the backend folder.
       </p>
 
       <ol className="mt-10 space-y-4">
@@ -74,9 +74,7 @@ function Pipeline() {
                   <h3 className="font-semibold">{s.title}</h3>
                 </div>
                 <p className="mt-1 text-sm text-muted-foreground">{s.body}</p>
-                <p className="mt-2 text-xs font-mono text-primary">
-                  See the code module: {s.module}.py
-                </p>
+                <p className="mt-2 text-xs font-mono text-primary">backend/screener/{s.module}.py</p>
               </div>
             </div>
             {i < steps.length - 1 && (

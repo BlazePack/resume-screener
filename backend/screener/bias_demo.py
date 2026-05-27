@@ -35,15 +35,14 @@ def run_bias_demo() -> BiasResponse:
         files["name_b"],
         "Alex Chen",
         "Jamala Washington",
-        "Same resume text with only the name changed. In a fair system the scores should be identical.",
+        "Same resume, different name. The score should stay the same.",
     )
     phrase_swap = _pair(
         files["phrase_without"],
         files["phrase_with"],
         "Activities: Coding Club",
         "Activities: Women's Coding Club",
-        "Even tiny score shifts from one activity phrase show the model reacting to wording, not only skills. "
-        "Historical hiring AI has penalized affinity-group language (e.g. Reuters, Amazon 2018).",
+        "One phrase changed. If the score moves, the tool is reacting to wording, not just skills.",
     )
 
     screening = run_screening()

@@ -55,16 +55,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AI Resume Screener — Educational Demo" },
+      { title: "Resume Screener | School project" },
       {
         name: "description",
-        content:
-          "Visualize how automated hiring tools parse resumes, score candidates, and filter applicants. A high school CS project.",
+        content: "Fake hiring simulation for a high school CS class. Score sample resumes and see how bias shows up.",
       },
-      { property: "og:title", content: "AI Resume Screener — Educational Demo" },
+      { property: "og:title", content: "Resume Screener" },
       {
         property: "og:description",
-        content: "How AI hiring tools rank resumes. Demo only, not real hiring.",
+        content: "How hiring software ranks resumes. School project, not real hiring.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },

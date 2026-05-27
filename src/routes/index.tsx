@@ -5,11 +5,11 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AI Resume Screener — How algorithms rank candidates" },
+      { title: "Resume Screener | How hiring AI ranks people" },
       {
         name: "description",
         content:
-          "An educational demo of how AI hiring tools parse resumes, score them, and filter applicants. Built as a high school CS project.",
+          "A school project that shows how hiring software reads resumes, scores them, and filters people out.",
       },
     ],
   }),
@@ -24,14 +24,15 @@ function Home() {
         <div className="max-w-6xl mx-auto px-4 pt-20 pb-24 md:pt-28 md:pb-32">
           <div className="inline-flex items-center gap-2 text-xs font-medium px-3 py-1 rounded-full bg-warning/20 text-warning-foreground border border-warning/40 mb-6">
             <ShieldAlert className="w-3.5 h-3.5" />
-            Educational simulation — not used in real hiring
+            Fake simulation (not real hiring)
           </div>
           <h1 className="text-4xl md:text-6xl font-bold tracking-tight max-w-3xl leading-[1.05]">
-            How AI hiring tools <span className="text-primary">rank resumes</span>.
+            How hiring AI <span className="text-primary">ranks resumes</span>
           </h1>
           <p className="mt-5 max-w-2xl text-lg text-muted-foreground">
-            Walk through the same pipeline real screening systems use — parse, extract, embed, score
-            — and see where bias can sneak in. Built for a high school CS class.
+            This site walks through what a lot of companies do: read the resume, pull out skills, compare
+            it to the job, score it, and cut people who score too low. We also show how bias can show up.
+            Built for a high school CS class.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg">
@@ -40,7 +41,7 @@ function Home() {
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/pipeline">See the pipeline</Link>
+              <Link to="/pipeline">See the steps</Link>
             </Button>
           </div>
         </div>
@@ -50,20 +51,20 @@ function Home() {
         {[
           {
             icon: Workflow,
-            title: "See the pipeline",
-            body: "Parse → NER → Embeddings → Score → Filter. Each step in plain English.",
+            title: "See the steps",
+            body: "Upload, parse, find skills, score, filter. Each step explained.",
             to: "/pipeline",
           },
           {
             icon: Sparkles,
-            title: "Score 8 candidates",
-            body: "Run a sample Software Engineer Intern role and inspect the rankings.",
+            title: "Score 8 resumes",
+            body: "Try a sample Software Engineer Intern job and see who ranks highest.",
             to: "/screening",
           },
           {
             icon: ShieldAlert,
-            title: "Probe for bias",
-            body: "Swap names and phrases on identical resumes — watch the score move.",
+            title: "Bias tests",
+            body: "Same resume, different name or one club line. Watch the score change.",
             to: "/bias",
           },
         ].map((c) => (

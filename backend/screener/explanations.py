@@ -1,5 +1,5 @@
-"""Human-readable explanations for presentation demos."""
-from backend.screener.schemas import CandidateResult, ExtractedEntities
+"""Short blurbs shown under each candidate score."""
+from backend.screener.schemas import ExtractedEntities
 
 
 def build_explanation(
@@ -12,15 +12,15 @@ def build_explanation(
     skills = extracted["skills"]
     if decision == "rejected":
         if not skills or skills == ["Microsoft Office"] or skills == ["Excel"]:
-            return "Limited programming keywords; resume emphasizes non-technical experience."
+            return "Not much programming on the resume. Mostly other work."
         if any(s in skills for s in ("Figma", "HTML", "CSS")) and "Python" not in skills:
-            return "Strong design portfolio but few backend/engineering keywords."
-        return "Overall match to the internship description is below the automated cutoff."
+            return "Design skills show up, but not much coding for this job."
+        return "Overall score was below the cutoff."
 
     if skill_match >= 0.85:
-        return "Strong skill overlap with the job description; semantic match supports advancement."
+        return "Skills line up well with the job posting."
     if semantic_score >= 0.78:
-        return "Solid semantic alignment with the role; activity wording may slightly affect embedding score."
+        return "Good match to the job description overall."
     if "Python" in skills:
-        return "Python and related tooling present; fewer advanced dev tools listed than top candidates."
-    return "Some overlap with the role; lighter on engineering tooling than leading applicants."
+        return "Has Python and some tools, but not as strong as the top applicants."
+    return "Some overlap with the job, but weaker than the leaders."

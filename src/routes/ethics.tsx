@@ -4,10 +4,10 @@ import { CheckCircle2, XCircle, ExternalLink } from "lucide-react";
 export const Route = createFileRoute("/ethics")({
   head: () => ({
     meta: [
-      { title: "Ethics & sources — AI Resume Screener Demo" },
+      { title: "Ethics | Resume Screener" },
       {
         name: "description",
-        content: "Benefits, risks, and further reading on automated hiring tools.",
+        content: "Pros, cons, and links about automated hiring tools.",
       },
     ],
   }),
@@ -15,29 +15,29 @@ export const Route = createFileRoute("/ethics")({
 });
 
 const benefits = [
-  "Speed: thousands of resumes scanned in minutes.",
-  "Consistency: the same rubric applied to every applicant.",
-  "Scale: small HR teams can handle large applicant pools.",
+  "Fast: can scan lots of resumes quickly.",
+  "Same rules for everyone (in theory).",
+  "Helps small teams handle big applicant lists.",
 ];
 
 const risks = [
-  "Bias: models trained on past hiring can reproduce historical discrimination.",
-  "Opacity: candidates rarely know they were filtered or why.",
-  "False negatives: qualified people can be screened out by phrasing or formatting.",
-  "Feedback loops: rejected groups stay underrepresented in future training data.",
+  "Bias: trained on old hiring data that wasn't fair.",
+  "Hard to know why you got filtered out.",
+  "Good people can get rejected because of wording.",
+  "Bad patterns can repeat if the data stays biased.",
 ];
 
 const sources = [
   {
-    label: "Reuters: Amazon scraps secret AI recruiting tool (2018)",
+    label: "Reuters: Amazon dropped an AI hiring tool (2018)",
     href: "https://www.reuters.com/article/us-amazon-com-jobs-automation-insight-idUSKCN1MK08G",
   },
   {
-    label: "NYC Local Law 144 — Automated Employment Decision Tools",
+    label: "NYC law on automated hiring tools",
     href: "https://www.nyc.gov/site/dca/about/automated-employment-decision-tools.page",
   },
   {
-    label: "EEOC: AI and the ADA in employment",
+    label: "EEOC: AI and disability in hiring",
     href: "https://www.eeoc.gov/laws/guidance/americans-disabilities-act-and-use-software-algorithms-and-artificial-intelligence",
   },
 ];
@@ -45,15 +45,15 @@ const sources = [
 function Ethics() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="text-3xl md:text-4xl font-bold">Ethics & sources</h1>
+      <h1 className="text-3xl md:text-4xl font-bold">Ethics & links</h1>
       <p className="mt-2 text-muted-foreground">
-        Automated screening tools are powerful — and high-stakes. Here's the short version.
+        Hiring software affects real people. Here is the short version for our class.
       </p>
 
       <section className="mt-8 grid md:grid-cols-2 gap-4">
         <div className="rounded-xl border border-border bg-card p-5">
           <h2 className="font-semibold flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-success" /> Benefits
+            <CheckCircle2 className="w-4 h-4 text-success" /> Pros
           </h2>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
             {benefits.map((b) => (
@@ -63,7 +63,7 @@ function Ethics() {
         </div>
         <div className="rounded-xl border border-border bg-card p-5">
           <h2 className="font-semibold flex items-center gap-2">
-            <XCircle className="w-4 h-4 text-destructive" /> Risks
+            <XCircle className="w-4 h-4 text-destructive" /> Cons
           </h2>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
             {risks.map((r) => (
@@ -74,7 +74,7 @@ function Ethics() {
       </section>
 
       <section className="mt-8">
-        <h2 className="text-xl font-semibold">Further reading</h2>
+        <h2 className="text-xl font-semibold">Links for your presentation</h2>
         <ul className="mt-3 space-y-2 text-sm">
           {sources.map((s) => (
             <li key={s.href}>
@@ -89,15 +89,11 @@ function Ethics() {
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-xs text-muted-foreground">
-          Add your own citations for the class presentation here.
-        </p>
+        <p className="mt-3 text-xs text-muted-foreground">Add your own sources for the slide deck if you want.</p>
       </section>
 
       <section className="mt-10 rounded-xl border border-warning/40 bg-warning/10 p-5 text-sm">
-        <strong>Disclaimer:</strong> This site is a student-built educational simulation. It does
-        not store real personal data, it is not used by any real employer, and the sample resumes
-        and scores are fictional.
+        <strong>Note:</strong> This is a student project. Fake resumes, fake scores, not a real hiring system.
       </section>
     </div>
   );

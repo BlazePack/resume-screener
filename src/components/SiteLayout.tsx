@@ -7,7 +7,7 @@ const nav = [
   { to: "/", label: "Home" },
   { to: "/screening", label: "Screening" },
   { to: "/pipeline", label: "Pipeline" },
-  { to: "/bias", label: "Bias Lab" },
+  { to: "/bias", label: "Bias" },
   { to: "/compare", label: "Compare" },
   { to: "/ethics", label: "Ethics" },
 ];
@@ -30,7 +30,7 @@ export function SiteLayout() {
             </span>
             <span className="font-display">Resume Screener</span>
             <span className="text-xs px-1.5 py-0.5 rounded bg-warning/20 text-warning-foreground border border-warning/40">
-              School Demo
+              School project
             </span>
           </Link>
           <nav className="hidden md:flex items-center gap-1 text-sm">
@@ -87,13 +87,13 @@ export function SiteLayout() {
       <footer className="border-t border-border bg-muted/40 mt-12">
         <div className="max-w-6xl mx-auto px-4 py-6 text-xs text-muted-foreground flex flex-col md:flex-row gap-2 md:items-center md:justify-between">
           <p>
-            Educational simulation only — not used by any real employer. See the{" "}
+            Fake simulation only. No real company uses this site.{" "}
             <Link to="/ethics" className="underline hover:text-foreground">
               Ethics page
             </Link>{" "}
-            for bias risks.
+            has more on bias.
           </p>
-          <p>High School CS Project · {new Date().getFullYear()}</p>
+          <p>High school CS project · {new Date().getFullYear()}</p>
         </div>
       </footer>
     </div>

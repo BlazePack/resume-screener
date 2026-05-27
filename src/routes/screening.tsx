@@ -24,10 +24,10 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Toolti
 export const Route = createFileRoute("/screening")({
   head: () => ({
     meta: [
-      { title: "Screening Dashboard — AI Resume Screener Demo" },
+      { title: "Screening | Resume Screener" },
       {
         name: "description",
-        content: "Score and rank sample candidates against a sample job description.",
+        content: "Score and rank sample resumes for a sample job.",
       },
     ],
   }),
@@ -73,7 +73,7 @@ function Screening() {
       setError(
         e instanceof Error
           ? e.message
-          : "Could not reach the screening API. Is the Python server running on port 8000?",
+          : "Could not reach the API. Check that Render is running and VITE_API_URL is set on Netlify.",
       );
       setResult(null);
     } finally {
@@ -108,10 +108,8 @@ function Screening() {
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
       <header className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold">Screening dashboard</h1>
-        <p className="mt-2 text-muted-foreground">
-          Pick a sample job, load the resumes, then score and rank with the live NLP pipeline.
-        </p>
+        <h1 className="text-3xl md:text-4xl font-bold">Screening</h1>
+        <p className="mt-2 text-muted-foreground">Pick the sample job, then score all 8 resumes.</p>
       </header>
 
       <section className="rounded-xl border border-border bg-card p-5 mb-8">
@@ -128,7 +126,7 @@ function Screening() {
             </Select>
             <p className="mt-2 text-xs text-muted-foreground line-clamp-2">
               {result?.job_description ??
-                "Looking for Python, web dev, Git, SQL, and teamwork — scored with embeddings + NER."}
+                "Sample intern job: Python, web dev, Git, SQL, teamwork."}
             </p>
           </div>
           <div>
@@ -148,7 +146,7 @@ function Screening() {
         </div>
         {loading && (
           <p className="mt-4 text-sm text-muted-foreground">
-            Calling the API on Render — usually 5–15 seconds (first request after sleep can take longer).
+            Talking to the server… can take 10–20 seconds if it was asleep.
           </p>
         )}
         {error && (
@@ -162,8 +160,8 @@ function Screening() {
         <>
           {result.scoring_mode === "tfidf-fallback" && (
             <p className="mb-4 text-sm rounded-md border border-border bg-muted/50 px-3 py-2 text-muted-foreground">
-              Running in <strong>lightweight mode</strong> on Render free tier (TF-IDF + spaCy). Full embedding
-              models need more than 512MB RAM.
+              <strong>Light mode:</strong> using keywords + spaCy (free server cannot load the big embedding
+              model).
             </p>
           )}
           <section className="rounded-xl border border-border bg-card p-5 mb-8">
@@ -364,12 +362,12 @@ function Expanded({ c }: { c: Candidate }) {
           {c.extracted.organizations.length ? (
             c.extracted.organizations.map((o) => <li key={o}>• {o}</li>)
           ) : (
-            <li className="text-xs">None detected — using date/skill signals only.</li>
+            <li className="text-xs">None found. Using dates and skills only.</li>
           )}
         </ul>
       </Block>
       <Block title="Dates">
-        <p className="text-muted-foreground">{c.extracted.dates.join(", ") || "—"}</p>
+        <p className="text-muted-foreground">{c.extracted.dates.join(", ") || "n/a"}</p>
       </Block>
       <div className="md:col-span-3 rounded-md border border-border bg-card p-3">
         <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">

@@ -16,10 +16,10 @@ import {
 export const Route = createFileRoute("/bias")({
   head: () => ({
     meta: [
-      { title: "Bias Lab — Resume Screener Demo" },
+      { title: "Bias tests | Resume Screener" },
       {
         name: "description",
-        content: "Swap names and phrases on identical resumes to see how AI scores can shift.",
+        content: "Change a name or one line on the same resume and see if the score changes.",
       },
     ],
   }),
@@ -34,23 +34,23 @@ function BiasPage() {
   useEffect(() => {
     fetchBiasDemo()
       .then((d) => setData({ name_swap: d.name_swap, phrase_swap: d.phrase_swap }))
-      .catch((e) => setError(e instanceof Error ? e.message : "Failed to load bias demo"))
+      .catch((e) => setError(e instanceof Error ? e.message : "Could not load bias demo"))
       .finally(() => setLoading(false));
   }, []);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12 space-y-12">
       <header>
-        <h1 className="text-3xl md:text-4xl font-bold">Bias lab</h1>
+        <h1 className="text-3xl md:text-4xl font-bold">Bias tests</h1>
         <p className="mt-2 text-muted-foreground max-w-2xl">
-          Live scores from identical resumes with only a name or activity phrase changed — the same
-          superficial signals that caused real-world hiring-AI controversies.
+          Same resume, tiny change (name or one activity line). The score should stay the same in a fair
+          system. Sometimes it does not.
         </p>
       </header>
 
       {loading && (
         <p className="text-muted-foreground flex items-center gap-2">
-          <Loader2 className="w-4 h-4 animate-spin" /> Running bias scenarios…
+          <Loader2 className="w-4 h-4 animate-spin" /> Loading…
         </p>
       )}
       {error && <p className="text-destructive text-sm">{error}</p>}
@@ -61,12 +61,8 @@ function BiasPage() {
             title="Name swap"
             explainer={
               <>
-                Same resume content; only the candidate&apos;s name is changed. In a fair system the
-                score wouldn&apos;t budge.{" "}
-                <strong>
-                  Reuters reported in 2018 that Amazon scrapped an internal resume tool
-                </strong>{" "}
-                after it was found to penalize resumes mentioning the word &quot;women&apos;s.&quot;
+                Same resume, different name. Score should not change. Amazon shut down a hiring tool in
+                2018 after it treated resumes with the word &quot;women&apos;s&quot; worse (Reuters).
               </>
             }
             data={data.name_swap}
@@ -76,8 +72,9 @@ function BiasPage() {
             title="Phrase swap"
             explainer={
               <>
-                Toggling a single activity phrase changes the embedding — and the score. Models
-                trained on biased historical hiring data can reproduce those patterns.
+                One line in activities changes (&quot;Coding Club&quot; vs &quot;Women&apos;s Coding
+                Club&quot;). Even a small score change shows the model is reacting to wording, not just
+                skills.
               </>
             }
             data={data.phrase_swap}
@@ -124,12 +121,10 @@ function Demo({
             </button>
           </div>
           <div className="mt-4 rounded-lg border border-border p-4">
-            <div className="text-xs uppercase tracking-wider text-muted-foreground">
-              Final score
-            </div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground">Final score</div>
             <div className="text-4xl font-bold mt-1">{Math.round(active.final_score * 100)}%</div>
             <div className="mt-3 text-sm">
-              Δ vs variant A:{" "}
+              Change vs first option:{" "}
               <span
                 className={
                   data.delta < 0 ? "text-destructive font-semibold" : "text-success font-semibold"
